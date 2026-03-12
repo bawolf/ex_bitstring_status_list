@@ -1,0 +1,14 @@
+{
+  "id": "recommendation-decode-example",
+  "operation": "decode",
+  "input": {
+    "encoded": "uH4sIAAAAAAAAA-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA",
+    "purpose": "revocation"
+  },
+  "expected": {
+    "size": 131072,
+    "statusSize": 1,
+    "purpose": "revocation",
+    "statusAt0": 0
+  }
+}

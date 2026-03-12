@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "advisory": false,
+  "channel": "released",
+  "generatedAt": "2026-03-11T00:00:00Z",
+  "provenance": {
+    "source": "W3C Recommendation examples plus package-owned deterministic corpus",
+    "note": "Use released fixtures as the contract for Recommendation-shaped status-list semantics until a stable external oracle is added."
+  },
+  "cases": [
+    {
+      "id": "entry-index-valid",
+      "operation": "entry_index",
+      "file": "entry-index-valid.json"
+    },
+    {
+      "id": "entry-index-invalid",
+      "operation": "entry_index",
+      "file": "entry-index-invalid.json"
+    },
+    {
+      "id": "recommendation-decode-example",
+      "operation": "decode",
+      "file": "recommendation-decode-example.json"
+    },
+    {
+      "id": "credential-status-active",
+      "operation": "status_from_credential",
+      "file": "credential-status-revoked.json"
+    }
+  ]
+}

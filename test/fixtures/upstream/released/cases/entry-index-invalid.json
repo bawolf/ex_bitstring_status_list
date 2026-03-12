@@ -1,0 +1,18 @@
+{
+  "id": "entry-index-invalid",
+  "operation": "entry_index",
+  "input": {
+    "entry": {
+      "id": "https://delegate.local/status-lists/revocation#x",
+      "type": "BitstringStatusListEntry",
+      "statusPurpose": "revocation",
+      "statusListCredential": "https://delegate.local/status-lists/revocation",
+      "statusListIndex": "x"
+    }
+  },
+  "expected": {
+    "result": {
+      "error": "invalid_status_list_index"
+    }
+  }
+}
