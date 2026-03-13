@@ -4,4 +4,4 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "$0")/../../.." && pwd)"
 
-"$repo_root/scripts/public_repo_mirror.sh" sync ex_bitstring_status_list "${1:-}"
+"$repo_root/scripts/public_repo_mirror.sh" verify ex_bitstring_status_list "${1:-}"

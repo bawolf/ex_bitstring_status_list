@@ -9,6 +9,25 @@ credentials and entry verification.
 
 Quick links: [Hex package](https://hex.pm/packages/ex_bitstring_status_list) | [Hex docs](https://hexdocs.pm/ex_bitstring_status_list) | [Supported features](https://github.com/bawolf/ex_bitstring_status_list/blob/main/SUPPORTED_FEATURES.md) | [Interop notes](https://github.com/bawolf/ex_bitstring_status_list/blob/main/INTEROP_NOTES.md) | [Fixture policy](https://github.com/bawolf/ex_bitstring_status_list/blob/main/FIXTURE_POLICY.md)
 
+## What Standard Is This?
+
+[Bitstring Status List](https://www.w3.org/TR/vc-bitstring-status-list/) is the
+W3C format for publishing revocation, suspension, or similar status information
+for many verifiable credentials at once. Instead of giving every credential its
+own status document, an issuer can publish one compressed list and let each
+credential point at an index inside it.
+
+`ex_bitstring_status_list` implements that status-list boundary for Elixir.
+
+## Why You Might Use It
+
+Use `ex_bitstring_status_list` when you need to:
+
+- issue many credentials and track whether each one is active, revoked, or suspended
+- build or read `BitstringStatusListCredential` documents
+- keep revocation logic separate from generic VC validation
+- avoid inventing a custom status format for your credential system
+
 The package owns status-list-specific semantics:
 
 - allocate stable entry indices
@@ -133,12 +152,12 @@ supported package-owned behavior.
 Run the local release gate with:
 
 ```bash
-mix release.gate
+mix ex_bitstring_status_list.release.gate
 ```
 
 ## Release Automation
 
-The standalone `ex_bitstring_status_list` repository is expected to carry:
+The mirrored `ex_bitstring_status_list` repository is expected to carry:
 
 - CI on push and pull request
 - a manual publish workflow
@@ -148,18 +167,51 @@ version and changelog are ready. It publishes to Hex first and then creates the
 matching Git tag and GitHub release automatically. It expects a `HEX_API_KEY`
 repository secret in the standalone `ex_bitstring_status_list` repository.
 
+## Releasing From GitHub
+
+Releases are cut from the public `github.com/bawolf/ex_bitstring_status_list`
+repository, not from the private monorepo checkout.
+
+The shortest safe path is:
+
+1. finish the change in `libs/ex_bitstring_status_list`
+2. run `scripts/release_preflight.sh`
+3. sync and verify the standalone repo with `scripts/sync_standalone_repo.sh` and `scripts/verify_standalone_repo.sh`
+4. push the mirrored release commit to `main` in `github.com/bawolf/ex_bitstring_status_list`
+5. in GitHub, go to `Actions`, choose `Publish`, and run it with the version from `mix.exs`
+
+The GitHub workflow is responsible for:
+
+- rerunning the release gate
+- publishing to Hex
+- creating the matching git tag
+- creating the matching GitHub release
+
 ## Maintainer Workflow
 
-`ex_bitstring_status_list` currently lives in the `delegate` monorepo and is
-mirrored into the standalone `ex_bitstring_status_list` repository for
-publishing and external consumption.
+`ex_bitstring_status_list` is developed in the `delegate` monorepo. The public
+`github.com/bawolf/ex_bitstring_status_list` repository is the mirrored OSS
+surface for issues, discussions, releases, and Hex publishing.
+
+The monorepo copy is authoritative for:
+
+- code
+- tests and fixtures
+- docs
+- GitHub workflows
+- release tooling
+
+Direct standalone-repo edits are temporary hotfixes only and must be
+backported to the monorepo immediately.
 
 The intended workflow is:
 
 1. make library changes in `libs/ex_bitstring_status_list`
-2. run `mix release.gate`
+2. run `scripts/release_preflight.sh`
 3. sync the package into a clean checkout of `github.com/bawolf/ex_bitstring_status_list`
-4. review and push from the standalone repo
-5. trigger the publish workflow from the standalone repo
+4. verify the mirrored required file set with `scripts/verify_standalone_repo.sh`
+5. review and push from the standalone repo
+6. trigger the publish workflow from the standalone repo
 
-A helper script for the sync step lives at `scripts/sync_standalone_repo.sh`.
+A helper to sync all public package repos from the monorepo lives at
+`/Users/bryantwolf/workspace/delegate/scripts/sync_public_libs.sh`.

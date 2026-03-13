@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Release.Gate do
+defmodule Mix.Tasks.ExBitstringStatusList.Release.Gate do
   use Mix.Task
 
   @shortdoc "Runs the ex_bitstring_status_list release gate checks"
@@ -78,5 +78,16 @@ defmodule Mix.Tasks.Release.Gate do
       {_output, status} ->
         Mix.raise("mix #{Enum.join(args, " ")} failed with exit status #{status}")
     end
+  end
+end
+
+defmodule Mix.Tasks.Release.Gate do
+  use Mix.Task
+
+  @shortdoc "Delegates to mix ex_bitstring_status_list.release.gate"
+
+  @impl Mix.Task
+  def run(args) do
+    Mix.Tasks.ExBitstringStatusList.Release.Gate.run(args)
   end
 end
