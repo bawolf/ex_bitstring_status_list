@@ -80,14 +80,3 @@ defmodule Mix.Tasks.ExBitstringStatusList.Release.Gate do
     end
   end
 end
-
-defmodule Mix.Tasks.Release.Gate do
-  use Mix.Task
-
-  @shortdoc "Delegates to mix ex_bitstring_status_list.release.gate"
-
-  @impl Mix.Task
-  def run(args) do
-    Mix.Tasks.ExBitstringStatusList.Release.Gate.run(args)
-  end
-end
